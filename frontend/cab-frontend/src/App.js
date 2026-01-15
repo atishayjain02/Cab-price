@@ -1,15 +1,12 @@
-import SearchForm from "./components/SearchForm";
-import MapView from "./components/MapView";
-import PriceTable from "./components/PriceTable";
 import { useState } from "react";
+import SearchForm from "./components/SearchForm";
+import PriceTable from "./components/PriceTable";
 
 function App() {
-  const [route, setRoute] = useState(null);
   const [prices, setPrices] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  const handleSearch = (from, to) => {
-    // validation
+  const handleSearch = async (from, to) => {
     if (!from || !to) {
       alert("Please enter both locations");
       return;
@@ -17,18 +14,29 @@ function App() {
 
     setLoading(true);
 
-    // simulate API call
-    setTimeout(() => {
-      setRoute({ from, to });
+    try {
+      const res = await fetch("http://127.0.0.1:5000/compare-text", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ from, to }),
+      });
 
-      setPrices([
-        { app: "Uber", price: 320 },
-        { app: "Ola", price: 300 },
-        { app: "Rapido", price: 180 }
-      ]);
+      const data = await res.json();
 
-      setLoading(false);
-    }, 1000);
+      const priceArray = Object.entries(data.prices).map(
+        ([app, price]) => ({
+          app: app.toUpperCase(),
+          price,
+        })
+      );
+
+      setPrices(priceArray);
+    } catch (err) {
+      console.error(err);
+      alert("Backend error");
+    }
+
+    setLoading(false);
   };
 
   return (
@@ -37,9 +45,7 @@ function App() {
 
       <SearchForm onSearch={handleSearch} />
 
-      {loading && <p>Fetching best prices...</p>}
-
-      {route && <MapView route={route} />}
+      {loading && <p>Calculating best prices...</p>}
 
       {prices.length > 0 && <PriceTable prices={prices} />}
     </div>
