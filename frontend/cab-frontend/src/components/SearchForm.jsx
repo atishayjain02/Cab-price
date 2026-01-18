@@ -5,12 +5,20 @@ function SearchForm({ onSearch }) {
   const [to, setTo] = useState("");
 
   const handleSubmit = (e) => {
-    e.preventDefault();         
-    onSearch(from, to);          
+    e.preventDefault();
+    onSearch(from, to);
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form
+      onSubmit={handleSubmit}
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        gap: "14px",
+        marginBottom: "20px",
+      }}
+    >
       <input
         type="text"
         placeholder="Pickup Location"
@@ -25,7 +33,19 @@ function SearchForm({ onSearch }) {
         onChange={(e) => setTo(e.target.value)}
       />
 
-      <button type="submit">Compare</button>
+      <button type="submit" style={{
+        padding: "12px",
+        backgroundColor: "black",
+        color: "white",
+        border: "none",
+        borderRadius: "8px",
+        fontSize: "15px",
+        fontWeight: "600",
+        cursor: "pointer",
+      }}
+        onMouseOver={(e) => (e.target.style.backgroundColor = "black")}
+        onMouseOut={(e) => (e.target.style.backgroundColor = "black")}
+      >Compare</button>
     </form>
   );
 }

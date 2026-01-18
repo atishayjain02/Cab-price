@@ -40,14 +40,38 @@ function App() {
   };
 
   return (
-    <div style={{ padding: "20px" }}>
-      <h1>Cab Price Comparator</h1>
+    <div style={{
+      minHeight: "100vh",
+      backgroundColor: "#f3f4f6",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",}}>
+
+    <div
+      style={{
+        backgroundColor: "#ffffff",
+        padding: "32px",
+        borderRadius: "12px",
+        width: "100%",
+        maxWidth: "520px",
+        boxShadow: "0 10px 25px rgba(0,0,0,0.1)",
+      }}
+    >
+      <h1 style={{
+        fontSize:"28px",
+        fontWeight:"bold",
+        marginBottom:"20px",
+        textAlign:"center"
+      }}>Cab Price Comparator</h1>
 
       <SearchForm onSearch={handleSearch} />
 
-      {loading && <p>Calculating best prices...</p>}
+      {loading &&  <p style={{ textAlign: "center", marginTop: "10px", color: "#6b7280" }}>
+    ⏳ Calculating best prices...
+  </p>}
 
       {prices.length > 0 && <PriceTable prices={prices} />}
+    </div>
     </div>
   );
 }
