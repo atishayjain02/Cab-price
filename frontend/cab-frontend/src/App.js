@@ -15,7 +15,7 @@ function App() {
     setLoading(true);
 
     try {
-      const res = await fetch("http://127.0.0.1:5000/compare-text", {
+      const res = await fetch("http://127.0.0.1:5000/compare", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ from, to }),
